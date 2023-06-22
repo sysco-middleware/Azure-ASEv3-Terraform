@@ -1,0 +1,62 @@
+## Resource Group Details
+location            = "norwayeast"
+resource_group_name = "asev3test1"
+
+service_prefix = "pocv1"
+
+## vNet Details
+custom_vnet_map = {
+  "ase" = {
+    vnet_address_space = ["10.2.0.0/16"]
+    subnet_names       = ["ase_subnet"]
+    subnet_prefixes    = ["10.2.1.0/24"]
+  }
+  "dmz" = {
+    vnet_address_space = ["10.1.0.0/16"]
+    subnet_names       = ["apigateway_subnet"]
+    subnet_prefixes    = ["10.1.1.0/24"]
+  }
+}
+
+
+subnet_delegation = {
+  "ase_subnet" = {
+    "Microsoft.Web.hostingEnvironments" = {
+      service_name    = "Microsoft.Web/hostingEnvironments"
+      service_actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+  } }
+}
+
+
+## vNET Peering
+enable_peering = true
+peering_name = "ase_peering"
+virtual_network_name = "ase"
+remote_virtual_network_name = "dmz"
+
+
+## ASE Details
+ase_vnet   = "ase"
+ase_subnet = "ase_subnet"
+
+
+tags = {
+  ENV   = "POC"
+  OWNER = "dhayanand"
+
+}
+
+
+#### for future
+
+# custom_vnet_peering_map = {
+#   "ase_peering" = {
+#     virtual_network_name        = "ase"
+#     remote_virtual_network_name = "dmz"
+#   }
+#   "dmz_peering" = {
+#     virtual_network_name        = "dmz"
+#     remote_virtual_network_name = "ase"
+#   }
+# }
+
