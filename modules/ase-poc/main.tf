@@ -75,7 +75,8 @@ module "terraform_function_app" {
 
 # # https://github.com/Azure-Samples/app-service-web-dotnet-get-started
 
-resource "azurerm_logic_app_standard" "logicapp" {
+module "azurerm_logic_app_standard" "logicapp" {
+  source = "../terraform_logic_app"
   name                       = "${var.service_prefix}la"
   location                   = module.terraform_resource_group.resource_group_location
   resource_group_name        = module.terraform_resource_group.resource_group_name
